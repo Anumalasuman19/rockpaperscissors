@@ -1,5 +1,4 @@
 import {Component} from 'react'
-import Popup from 'reactjs-popup'
 import 'reactjs-popup/dist/index.css'
 import {RiCloseLine} from 'react-icons/ri'
 import GameStatus from '../Constants/Constants'
@@ -22,6 +21,7 @@ import {
   PopUpContainer,
   PopUpCloseButton,
   Heading,
+  RulesPopup,
 } from './GameViewStyles'
 
 const choicesList = [
@@ -105,6 +105,26 @@ class GameView extends Component {
     this.setState({gameStatus: GameStatus.initial})
   }
 
+  getInitialView = () => (
+    <DisplayOptionsContainer>
+      <DisplayOptionsList>
+        {choicesList.map(item => (
+          <DisplayOption key={item.id}>
+            <OptionButton
+              data-testid={`${item.id.toLowerCase()}Button`}
+              type="button"
+              onClick={() => {
+                this.onClickOfRockOrPaperOrScissors(item.id)
+              }}
+            >
+              <OptionIcon src={item.imageUrl} alt={item.id} />
+            </OptionButton>
+          </DisplayOption>
+        ))}
+      </DisplayOptionsList>
+    </DisplayOptionsContainer>
+  )
+
   render() {
     const {
       score,
@@ -127,23 +147,7 @@ class GameView extends Component {
           </ScoreContainer>
         </ScoreDetailsContainer>
         {gameStatus === GameStatus.initial ? (
-          <DisplayOptionsContainer>
-            <DisplayOptionsList>
-              {choicesList.map(item => (
-                <DisplayOption key={item.id}>
-                  <OptionButton
-                    data-testid={`${item.id.toLowerCase()}Button`}
-                    type="button"
-                    onClick={() => {
-                      this.onClickOfRockOrPaperOrScissors(item.id)
-                    }}
-                  >
-                    <OptionIcon src={item.imageUrl} alt={item.id} />
-                  </OptionButton>
-                </DisplayOption>
-              ))}
-            </DisplayOptionsList>
-          </DisplayOptionsContainer>
+          this.getInitialView()
         ) : (
           <GameResultView
             choiceList={choicesList}
@@ -153,7 +157,7 @@ class GameView extends Component {
             onClickOfPlayAgain={this.onClickOfPlayAgain}
           />
         )}
-        <Popup trigger={<RulesButton> RULES </RulesButton>} modal>
+        <RulesPopup trigger={<RulesButton> RULES </RulesButton>} modal>
           {close => (
             <PopUpContainer style={{padding: '20px'}}>
               <PopUpCloseButton onClick={close} type="button">
@@ -165,7 +169,7 @@ class GameView extends Component {
               />
             </PopUpContainer>
           )}
-        </Popup>
+        </RulesPopup>
       </GameViewContainer>
     )
   }

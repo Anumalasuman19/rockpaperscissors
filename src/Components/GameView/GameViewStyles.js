@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import Popup from 'reactjs-popup'
 
 export const GameViewContainer = styled.div`
   background-color: #223a5f;
@@ -124,4 +125,12 @@ export const PopUpContainer = styled.div`
 `
 export const PopUpCloseButton = styled.button`
   align-self: flex-end;
+  background-color: Red;
+  border: 0px;
+  color: #ffffff;
+  padding: 5px;
+`
+export const RulesPopup = styled(Popup)`
+  width: 300px;
+  padding: 5px;
 `
